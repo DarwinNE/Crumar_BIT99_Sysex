@@ -10,4 +10,12 @@ The user interface is minimalistic, but it should be reasonably usable.
 
 Some defaults are hardcoded at the beginning of the main.c file. Change them according to your preferences if you really wants to.
 
+The tool can send commands from one of the available interfaces (always on channel 0) and will receive Sysex data on all available MIDI sources.
+
 As a hint to 1980-style programming, I took the liberty of using a liberal quantity of old-fashioned `goto` commands in [main.c](../blob/master/main.c) ;-) 
+
+## Screenshots
+
+![Screenshot of the main menu of the tool](https://raw.githubusercontent.com/DarwinNE/Crumar_BIT99_Sysex/refs/heads/main/screenshots/main_screen.jpg)
+
+![Screenshot of the patch 22 interpreted](https://raw.githubusercontent.com/DarwinNE/Crumar_BIT99_Sysex/refs/heads/main/screenshots/patch_22.jpg)
