@@ -40,7 +40,7 @@ int check_file_name(int pr)
     } else {
         sprintf(full_file_name, "%s_all.syx",base_file_name);
     }
-    printf("Full file name: %s\n", full_file_name);
+    printf("Full file name: \"%s\"\n", full_file_name);
     fout = fopen(full_file_name, "w");
     return 0;
 }
@@ -52,15 +52,28 @@ void press_a_key(void)
     wait_for_key();
 }
 
+/** Strip the cr and the spaces at the end of the provided string.
+*/
 void strip_cr(char *s)
 {
+    char *start=s;
+
     while(*s!='\0') {
-        if(*s=='\n')
+        if(*s=='\n' || *s=='\r') {
             *s='\0';
+            break;
+        }
         ++s;
+    }
+    --s;
+    while(s>=start && isspace(*s)) {
+        *s='\0';
+        --s;
     }
 }
 
+/** Show the main menu and let the user chice what to do.
+*/
 void main_menu(void)
 {
     char choice;
@@ -185,14 +198,14 @@ choose:
                 if(strcmp(full_file_name,"")==0) {
                     printf("Enter full file name with extension: ");
                     fgets(full_file_name, BUFFER_SIZE-1, stdin);
-                    strip_cr(full_file_name);
                 } else {
                     printf("Enter full file name with extension or ");
-                    printf("type return for %s\n", full_file_name);
+                    printf("type return for \"%s\"\n", full_file_name);
                     fgets(buffer, BUFFER_SIZE-1, stdin);
                     if(strcmp(buffer, "\n")!=0)
                         strcpy(full_file_name, buffer);
                 }
+                strip_cr(full_file_name);
                 bit99_send_file(full_file_name);
                 press_a_key();
                 goto menu;
@@ -201,14 +214,14 @@ choose:
                 if(strcmp(full_file_name,"")==0) {
                     printf("Enter full file name with extension: ");
                     fgets(full_file_name, BUFFER_SIZE-1, stdin);
-                    strip_cr(full_file_name);
                 } else {
                     printf("Enter full file name with extension or ");
-                    printf("type return for %s\n", full_file_name);
+                    printf("type return for \"%s\"\n", full_file_name);
                     fgets(buffer, BUFFER_SIZE-1, stdin);
                     if(strcmp(buffer, "\n")!=0)
                         strcpy(full_file_name, buffer);
                 }
+                strip_cr(full_file_name);
                 bit99_sysex(full_file_name);
                 press_a_key();
                 goto menu;
@@ -223,6 +236,8 @@ choose:
     printf(C_CLEAR);
 }
 
+/** The entry point of the program.
+*/
 int main(int argc, char** argv)
 {
     midi_enumerate();

@@ -1,4 +1,6 @@
 #include <stdio.h>
+#include <errno.h>
+
 #include "os_midi.h"
 #include "bit99_midi.h"
 #include "ansi_codes.h"
@@ -100,7 +102,7 @@ int bit99_send_file(char *fn)
     int ch;
 
     if(fin==NULL) {
-        fprintf(stderr, "Could not open file %s", fn);
+        fprintf(stderr, "Could not open file \"%s\" with errno=%d", fn, errno);
         return 1;
     }
 
