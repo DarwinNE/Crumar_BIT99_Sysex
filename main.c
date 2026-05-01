@@ -57,11 +57,17 @@ void press_a_key(void)
 void strip_cr(char *s)
 {
     char *start=s;
+    char *p;
 
     while(*s!='\0') {
         if(*s=='\n' || *s=='\r') {
             *s='\0';
             break;
+        }
+        // convert the slash-space into space
+        if(*s=='\\' && *(s+1)==' ') {
+            for(p=s; *p!='\0'; ++p)
+                *p=*(p+1);
         }
         ++s;
     }
@@ -207,6 +213,7 @@ choose:
                 }
                 strip_cr(full_file_name);
                 bit99_send_file(full_file_name);
+                printf("File sent.\n");
                 press_a_key();
                 goto menu;
                 break;
